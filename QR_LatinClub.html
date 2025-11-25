@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAIN CLUB | Registro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Estilos Generales --- */
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            /* Aquí cargamos tu NUEVA IMAGEN DE FONDO */
+            background-image: url('fondo.png');
+            background-size: cover;       /* Cubre toda la pantalla */
+            background-position: center;  /* Centrada */
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* El fondo se queda quieto al hacer scroll */
+            background-color: #000;       /* Color de respaldo */
+            
+            color: #39ff14; /* Color base: VERDE NEÓN (sacado de tu imagen) */
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* --- LOGO SUPERIOR (ZAIN CLUB) --- */
+        .header-logo {
+            margin-bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 20; /* Asegura que esté encima de todo */
+        }
+
+        .logo-img {
+            max-width: 90%; 
+            height: auto;
+            display: block;
+            /* El truco para quitar el fondo negro del logo de texto */
+            mix-blend-mode: screen; 
+            /* Resplandor verde para combinar con el nuevo tema */
+            filter: drop-shadow(0 0 10px rgba(57, 255, 20, 0.6));
+        }
+
+        /* --- Tarjeta Central (Efecto Vidrio Oscuro) --- */
+        .tarjeta {
+            /* Fondo negro semitransparente para ver la ilustración detrás */
+            background: rgba(0, 0, 0, 0.85); 
+            backdrop-filter: blur(5px); /* Desenfoca un poco el fondo detrás de la tarjeta */
+            
+            padding: 2.5rem;
+            border-radius: 20px;
+            
+            /* Borde degradado de Verde a Morado */
+            border: 2px solid transparent;
+            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), 
+                              linear-gradient(to bottom right, #39ff14, #9d00ff);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            
+            box-shadow: 0 0 40px rgba(157, 0, 255, 0.3); /* Resplandor Morado sutil */
+            
+            text-align: center;
+            width: 100%;
+            max-width: 350px;
+            position: relative;
+        }
+
+        /* --- Tipografía --- */
+        h2 {
+            color: #ffffff;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        p {
+            color: #cbb2fe; /* Un tono lila suave para el subtítulo */
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        /* --- Inputs --- */
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: rgba(255, 255, 255, 0.05); /* Muy transparente */
+            border: 1px solid #555;
+            border-radius: 8px;
+            box-sizing: border-box;
+            color: #39ff14; /* Texto verde al escribir */
+            font-size: 16px;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        input::placeholder { color: #666; }
+        
+        input:focus {
+            outline: none;
+            border-color: #9d00ff; /* Borde morado al seleccionar */
+            box-shadow: 0 0 15px rgba(157, 0, 255, 0.4);
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        /* --- Botón Principal --- */
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            /* Gradiente de Verde a Morado (como las letras de la imagen) */
+            background: linear-gradient(90deg, #39ff14 0%, #9d00ff 100%);
+            color: #000; /* Texto negro para contraste con el verde neón */
+            border: none;
+            border-radius: 50px; /* Botón redondeado estilo moderno */
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(57, 255, 20, 0.6); /* Brillo verde intenso */
+        }
+        button:disabled {
+            background: #333;
+            color: #777;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        
+        /* --- Área del QR --- */
+        #contenedor-qr {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            border-radius: 15px;
+            background: #000; /* Fondo negro puro para el QR */
+            border: 1px solid #39ff14; /* Borde verde fino */
+            box-shadow: inset 0 0 20px rgba(57, 255, 20, 0.2);
+            min-height: 180px;
+        }
+        #contenedor-qr img { display: block; max-width: 100%; }
+        
+        /* --- Mensaje de Éxito --- */
+        .nota {
+            font-size: 1.1rem;
+            color: #39ff14;
+            margin-top: 20px;
+            display: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(57, 255, 20, 0.8);
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+    <header class="header-logo">
+        <img src="logo.jpg" alt="ZAIN CLUB" class="logo-img">
+    </header>
+
+    <div class="tarjeta">
+        <h2>Registro</h2>
+        <p>Ingresa tus datos para el acceso</p>
+        
+        <input type="text" id="nombre" placeholder="Nombre Completo" required autocomplete="off">
+        <input type="text" id="carnet" placeholder="DPI / ID" required autocomplete="off">
+        
+        <button onclick="generarQR()">Generar QR</button>
+
+        <div id="contenedor-qr"></div>
+        <p id="mensaje-exito" class="nota">★ Acceso Concedido ★</p>
+    </div>
+
+    <script>
+        // TU URL DE GOOGLE SHEETS
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzwfux4r-dhwJTyKQq13KpffqUrIih5PCBeK7ywMnlNYQAv1Y6GQwSXT-ngjokad8kS0w/exec';
+
+        function generarQR() {
+            var nombre = document.getElementById('nombre').value;
+            var carnet = document.getElementById('carnet').value;
+            var contenedor = document.getElementById('contenedor-qr');
+            var boton = document.querySelector('button');
+            var mensaje = document.getElementById('mensaje-exito');
+
+            if (nombre === "" || carnet === "") {
+                alert("⚠️ Faltan datos.");
+                return;
+            }
+
+            boton.innerText = "Procesando...";
+            boton.disabled = true;
+            mensaje.style.display = "none";
+            contenedor.innerHTML = ""; 
+
+            var formData = new FormData();
+            formData.append('Nombre', nombre);
+            formData.append('ID', carnet);
+
+            fetch(scriptURL, { method: 'POST', body: formData})
+                .then(response => {
+                    var datosUsuario = {
+                        id: carnet,
+                        nombre: nombre,
+                        validado: "si"
+                    };
+                    
+                    // --- QR PERSONALIZADO CON GAMA DE COLORES NUEVA ---
+                    new QRCode(contenedor, {
+                        text: JSON.stringify(datosUsuario),
+                        width: 170,
+                        height: 170,
+                        // El color de los puntos ahora es VERDE NEÓN
+                        colorDark : "#39ff14", 
+                        // El fondo es NEGRO
+                        colorLight : "#000000",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+
+                    mensaje.style.display = "block";
+                    boton.innerText = "Listo";
+                    boton.disabled = false;
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    alert("Error de conexión");
+                    boton.innerText = "Reintentar";
+                    boton.disabled = false;
+                });
+        }
+    </script>
+
+</body>
+</html>
