@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LATIN CLUB | Registro</title>
+    <title>ZAIN CLUB | Registro</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -12,7 +12,7 @@
             font-family: 'Rajdhani', sans-serif;
             background-image: url('fondo.png');
             background-size: cover;
-            background-position: center top; /* Alineado arriba para ver el arte */
+            background-position: center top; 
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-color: #000;
@@ -25,7 +25,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 15px; /* Menos padding en celular */
+            padding: 15px; 
         }
 
         /* --- LOGO SUPERIOR CORREGIDO --- */
@@ -41,37 +41,20 @@
             max-width: 95%; 
             height: auto;
             display: block;
-            
-            /* --- CORRECCIÓN DEL CUADRO GRIS --- */
-            /* 1. Contrast alto: Fuerza el gris oscuro a convertirse en NEGRO PURO */
-            /* 2. Brightness bajo: Oscurece el fondo para que desaparezca */
             filter: contrast(150%) brightness(80%) drop-shadow(0 0 5px rgba(57, 255, 20, 0.4));
-            
-            /* Ahora sí, el modo pantalla borrará el negro perfecto */
             mix-blend-mode: screen; 
-            
-            /* Por si acaso, redondeamos bordes para que no se vea cuadrado */
             border-radius: 20px;
         }
 
-        /* --- Tarjeta Central (Más Transparente / Efecto Cristal) --- */
+        /* --- Tarjeta Central --- */
         .tarjeta {
-            /* Mucho más transparente (0.6 en vez de 0.85) */
             background: rgba(0, 0, 0, 0.60); 
-            
-            /* Más desenfoque para que el texto se lea bien sobre el dibujo */
             backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); /* Para iPhone/Safari */
-            
-            padding: 2rem; /* Un poco menos de relleno */
+            -webkit-backdrop-filter: blur(12px);
+            padding: 2rem; 
             border-radius: 25px;
-            
-            /* Borde más sutil */
             border: 1px solid rgba(57, 255, 20, 0.3);
-            
-            /* Sombra suave */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            
             text-align: center;
             width: 100%;
             max-width: 350px;
@@ -85,21 +68,36 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             font-size: 1.8rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* Sombra al texto para leerlo mejor */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8); 
         }
-        p {
-            color: #ddd; /* Blanco hueso para mejor lectura */
-            font-size: 1rem;
+        
+        /* --- NUEVO: CAJA DE DETALLES DEL EVENTO --- */
+        .info-evento {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            border-radius: 10px;
+            padding: 10px;
             margin-bottom: 20px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            color: #fff;
+            font-size: 0.95rem;
+            display: flex;
+            flex-direction: column;
+            gap: 5px; /* Espacio entre líneas */
+            text-shadow: 0 1px 2px black;
         }
+        .info-dato {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .resaltar { color: #39ff14; font-weight: bold; }
 
         /* --- Inputs --- */
         input {
             width: 100%;
             padding: 15px;
             margin: 8px 0;
-            /* Fondo casi invisible */
             background-color: rgba(0, 0, 0, 0.4); 
             border: 1px solid rgba(57, 255, 20, 0.3);
             border-radius: 12px;
@@ -122,124 +120,4 @@
         button {
             width: 100%;
             padding: 15px;
-            margin-top: 20px;
-            background: linear-gradient(90deg, #39ff14 0%, #2dbd0f 100%); /* Verde puro */
-            color: #000;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.4);
-            transition: transform 0.2s;
-        }
-        button:hover { transform: scale(1.02); }
-        button:disabled { background: #333; color: #777; box-shadow: none; }
-        
-        /* --- Área del QR --- */
-        #contenedor-qr {
-            margin-top: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-            border-radius: 15px;
-            background: rgba(0, 0, 0, 0.8); /* Fondo oscuro para que el QR resalte */
-            border: 1px solid #39ff14;
-            min-height: 180px;
-        }
-        #contenedor-qr img { display: block; max-width: 100%; }
-        
-        .nota {
-            font-size: 1.1rem;
-            color: #39ff14;
-            margin-top: 20px;
-            display: none;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-    </style>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-</head>
-<body>
-
-    <header class="header-logo">
-        <img src="logo.jpg" alt="ZAIN CLUB" class="logo-img">
-    </header>
-
-    <div class="tarjeta">
-        <h2>Registro</h2>
-        <p>Ingresa tus datos para el acceso</p>
-        
-        <input type="text" id="nombre" placeholder="Nombre Completo" required autocomplete="off">
-        <input type="text" id="carnet" placeholder="DPI / ID" required autocomplete="off">
-        
-        <button onclick="generarQR()">Generar QR</button>
-
-        <div id="contenedor-qr"></div>
-        <p id="mensaje-exito" class="nota">★ Acceso Concedido ★</p>
-    </div>
-
-    <script>
-        // TU URL DE GOOGLE SHEETS
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzwfux4r-dhwJTyKQq13KpffqUrIih5PCBeK7ywMnlNYQAv1Y6GQwSXT-ngjokad8kS0w/exec';
-
-        function generarQR() {
-            var nombre = document.getElementById('nombre').value;
-            var carnet = document.getElementById('carnet').value;
-            var contenedor = document.getElementById('contenedor-qr');
-            var boton = document.querySelector('button');
-            var mensaje = document.getElementById('mensaje-exito');
-
-            if (nombre === "" || carnet === "") {
-                alert("⚠️ Faltan datos.");
-                return;
-            }
-
-            boton.innerText = "Procesando...";
-            boton.disabled = true;
-            mensaje.style.display = "none";
-            contenedor.innerHTML = ""; 
-
-            var formData = new FormData();
-            formData.append('Nombre', nombre);
-            formData.append('ID', carnet);
-
-            fetch(scriptURL, { method: 'POST', body: formData})
-                .then(response => {
-                    var datosUsuario = {
-                        id: carnet,
-                        nombre: nombre,
-                        validado: "si"
-                    };
-                    
-                    // --- QR PERSONALIZADO CON GAMA DE COLORES NUEVA ---
-                    new QRCode(contenedor, {
-                        text: JSON.stringify(datosUsuario),
-                        width: 170,
-                        height: 170,
-                        // El color de los puntos ahora es VERDE NEÓN
-                        colorDark : "#39ff14", 
-                        // El fondo es NEGRO
-                        colorLight : "#000000",
-                        correctLevel : QRCode.CorrectLevel.H
-                    });
-
-                    mensaje.style.display = "block";
-                    boton.innerText = "Listo";
-                    boton.disabled = false;
-                })
-                .catch(error => {
-                    console.error('Error!', error.message);
-                    alert("Error de conexión");
-                    boton.innerText = "Reintentar";
-                    boton.disabled = false;
-                });
-        }
-    </script>
-
-</body>
-</html>
+            margin-top: 15px;
