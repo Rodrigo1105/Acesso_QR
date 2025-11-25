@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LATIN CLUB | Registro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            /* FALLBACK: Si no hay imagen, usa este color negro */
+            background-color: #000;
+            /* FALLBACK 2: Si no hay imagen, usa este degradado chido */
+            background: linear-gradient(135deg, #1a0b2e 0%, #000000 100%);
+            
+            /* INTENTO DE CARGAR LA IMAGEN */
+            background-image: url('fondo.png');
+            background-size: cover;
+            background-position: center top; 
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            
+            color: #39ff14;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px; 
+        }
+
+        /* Si el logo falla, mostramos texto de respaldo */
+        .header-logo {
+            margin-bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 20;
+            min-height: 50px; /* Espacio reservado por si no carga */
+        }
+
+        .logo-img {
+            max-width: 95%; 
+            height: auto;
+            display: block;
+            filter: contrast(150%) brightness(80%) drop-shadow(0 0 5px rgba(57, 255, 20, 0.4));
+            mix-blend-mode: screen; 
+        }
+
+        /* Texto de respaldo por si no carga el logo */
+        .logo-fallback {
+            display: none; /* Oculto por defecto */
+            font-size: 3rem;
+            font-weight: bold;
+            color: #39ff14;
+            text-shadow: 0 0 10px #39ff14;
+            text-transform: uppercase;
+        }
+
+        .tarjeta {
+            background: rgba(0, 0, 0, 0.75); /* Un poco más oscuro para asegurar que se vea */
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px);
+            padding: 2rem; 
+            border-radius: 25px;
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        h2 { color: #fff; margin-bottom: 15px; font-size: 1.8rem; text-shadow: 0 2px 4px black; }
+
+        .info-evento {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 20px;
+            color: #eee;
+        }
+        .resaltar { color: #39ff14; font-weight: bold; }
+
+        input {
+            width: 100%; padding: 15px; margin: 8px 0;
+            background-color: rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            border-radius: 12px; box-sizing: border-box;
+            color: #39ff14; font-size: 16px;
+        }
+        
+        button {
+            width: 100%; padding: 15px; margin-top: 15px;
+            background: linear-gradient(90deg, #39ff14 0%, #2dbd0f 100%); 
+            color: #000; border: none; border-radius: 50px;
+            font-size: 18px; font-weight: 800; cursor: pointer;
+        }
+
+        #contenedor-qr {
+            margin-top: 20px; display: flex; justify-content: center;
+            align-items: center; padding: 15px; border-radius: 15px;
+            background: #000; border: 1px solid #39ff14; min-height: 180px;
+        }
+        
+        .aviso-legal {
+            margin-top: 20px; padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.75rem; color: #bbb;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+    <header class="header-logo">
+        <img src="logo.jpg" alt="ZAIN CLUB" class="logo-img" onerror="this.style.display='none'; document.getElementById('txt-logo').style.display='block'">
+        <div id="txt-logo" class="logo-fallback">ZAIN CLUB</div>
+    </header>
+
+    <div class="tarjeta">
+        <h2>Registro</h2>
+        <div class="info-evento">
+            <div>📍 La Bruja | 📅 6 de Diciembre</div>
+            <div>Cover: <span class="resaltar">Q 75.00</span></div>
+        </div>
+        
+        <input type="text" id="nombre" placeholder="Nombre Completo" required>
+        <input type="text" id="carnet" placeholder="DPI / ID" required>
+        
+        <button onclick="generarQR()">Generar QR</button>
+
+        <div id="contenedor-qr"></div>
+        <p class="aviso-legal">
+            <strong>Instrucciones:</strong> Presenta este código QR en taquilla.<br>
+            (No pediremos datos bancarios)
+        </p>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzwfux4r-dhwJTyKQq13KpffqUrIih5PCBeK7ywMnlNYQAv1Y6GQwSXT-ngjokad8kS0w/exec';
+
+        function generarQR() {
+            var nombre = document.getElementById('nombre').value;
+            var carnet = document.getElementById('carnet').value;
+            var contenedor = document.getElementById('contenedor-qr');
+            var boton = document.querySelector('button');
+
+            if (!nombre || !carnet) { alert("⚠️ Llena los datos"); return; }
+
+            boton.innerText = "Procesando..."; boton.disabled = true;
+            contenedor.innerHTML = ""; 
+
+            var formData = new FormData();
+            formData.append('Nombre', nombre);
+            formData.append('ID', carnet);
+
+            fetch(scriptURL, { method: 'POST', body: formData})
+                .then(r => {
+                    new QRCode(contenedor, {
+                        text: JSON.stringify({id: carnet, nombre: nombre, validado: "si"}),
+                        width: 170, height: 170, colorDark : "#39ff14", colorLight : "#000000",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+                    boton.innerText = "Listo"; boton.disabled = false;
+                })
+                .catch(e => { alert("Error de conexión"); boton.innerText = "Reintentar"; boton.disabled = false; });
+        }
+    </script>
+</body>
+</html>
