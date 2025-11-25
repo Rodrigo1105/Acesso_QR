@@ -3,58 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Registro y QR</title>
+    <title>Generar Pase QR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* --- Estilos Generales --- */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+            background-color: #000000; /* Fondo Negro */
+            color: #ff3838; /* Color de texto principal Rojo vibrante */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px; /* Un poco de espacio en móviles */
         }
+
+        /* --- Tarjeta Central --- */
         .tarjeta {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: #1a1a1a; /* Fondo gris muy oscuro */
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 2px solid #ff3838; /* Borde Rojo */
+            box-shadow: 0 0 25px rgba(255, 56, 56, 0.3); /* Resplandor Rojo */
             text-align: center;
-            width: 350px;
+            width: 100%;
+            max-width: 380px; /* Un poco más ancha */
         }
-        h2 { color: #333; margin-bottom: 20px; }
+
+        /* ---Tipografía --- */
+        h2 {
+            color: #ffffff; /* Título en blanco para contraste */
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        p {
+            color: #ff3838;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        /* --- Inputs (Campos de texto) --- */
         input {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box; /* Para que el padding no deforme el ancho */
+            padding: 15px;
+            margin: 8px 0;
+            background-color: #0d0d0d; /* Fondo del input casi negro */
+            border: 2px solid #333; /* Borde sutil */
+            border-radius: 8px;
+            box-sizing: border-box;
+            color: #ff3838; /* Texto rojo al escribir */
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
         }
+        /* Color del texto de ayuda (placeholder) */
+        input::placeholder {
+            color: #7a2e2e;
+        }
+        /* Efecto al hacer clic en el input */
+        input:focus {
+            outline: none;
+            border-color: #ff3838; /* Borde rojo brillante */
+            box-shadow: 0 0 10px rgba(255, 56, 56, 0.2);
+        }
+        
+        /* --- Botón Principal --- */
         button {
             width: 100%;
-            padding: 10px;
-            background-color: #28a745;
+            padding: 15px;
+            margin-top: 25px;
+            /* Gradiente Rojo */
+            background: linear-gradient(135deg, #ff3838 0%, #c0392b 100%);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        button:hover { background-color: #218838; }
+        button:hover {
+            transform: translateY(-3px); /* Se levanta un poco */
+            box-shadow: 0 10px 20px rgba(255, 56, 56, 0.4); /* Sombra roja */
+        }
+        button:active { transform: translateY(-1px); }
+        /* Estilo cuando está cargando */
+        button:disabled {
+            background: #555;
+            color: #888;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
         
-        /* Contenedor donde aparecerá el QR */
+        /* --- Área del QR --- */
         #contenedor-qr {
-            margin-top: 20px;
+            margin-top: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Un marco para que el QR resalte */
+            padding: 15px;
+            border-radius: 10px;
+            background: #0d0d0d;
+            border: 1px solid #ff3838;
+            min-height: 180px; /* Evita saltos bruscos */
         }
+        /* Para que la imagen del QR se adapte */
+        #contenedor-qr img { display: block; max-width: 100%; }
         
-        /* Texto pequeño debajo del QR */
-        .nota { font-size: 12px; color: #666; margin-top: 10px; display: none; }
+        /* --- Mensaje de Éxito --- */
+        .nota {
+            font-size: 16px;
+            color: #ff3838;
+            margin-top: 20px;
+            display: none;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
     </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -62,20 +133,20 @@
 <body>
 
     <div class="tarjeta">
-        <h2>Registro de Usuario</h2>
-        <p>Ingresa tus datos para generar tu pase.</p>
+        <h2>Acceso Requerido</h2>
+        <p>Introduce credenciales para generar pase.</p>
         
-        <input type="text" id="nombre" placeholder="Nombre Completo" required>
-        <input type="text" id="carnet" placeholder="ID / Carnet / DPI" required>
+        <input type="text" id="nombre" placeholder="Nombre Completo" required autocomplete="off">
+        <input type="text" id="carnet" placeholder="ID / Carnet / DPI" required autocomplete="off">
         
-        <button onclick="generarQR()">Generar Código QR</button>
+        <button onclick="generarQR()">>>> Generar Acceso <<<</button>
 
         <div id="contenedor-qr"></div>
-        <p id="mensaje-exito" class="nota">¡Código generado! Escanéalo para ver los datos.</p>
+        <p id="mensaje-exito" class="nota">✅ ¡Pase Generado con Éxito!</p>
     </div>
 
     <script>
-        // PEGA AQUÍ TU URL LARGA DE GOOGLE (La que termina en /exec)
+        // TU URL DE GOOGLE SHEETS (Ya estaba en tu código)
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzwfux4r-dhwJTyKQq13KpffqUrIih5PCBeK7ywMnlNYQAv1Y6GQwSXT-ngjokad8kS0w/exec';
 
         function generarQR() {
@@ -86,54 +157,48 @@
             var mensaje = document.getElementById('mensaje-exito');
 
             if (nombre === "" || carnet === "") {
-                alert("Por favor, llena todos los campos.");
+                alert("⚠️ Faltan datos. Por favor verifica.");
                 return;
             }
 
-            // Cambiamos el texto del botón para que el usuario sepa que está cargando
-            boton.innerText = "Guardando...";
+            boton.innerText = "Conectando con Servidor...";
             boton.disabled = true;
+            mensaje.style.display = "none";
+            contenedor.innerHTML = ""; // Limpiar área mientras carga
 
-            // Preparamos los datos para enviar a Google Sheets
-            // Los nombres "Nombre" e "ID" deben coincidir con la fila 1 de tu Excel
             var formData = new FormData();
             formData.append('Nombre', nombre);
             formData.append('ID', carnet);
 
-            // Enviamos los datos
             fetch(scriptURL, { method: 'POST', body: formData})
                 .then(response => {
-                    console.log('Success!', response);
-                    
-                    // SI SE GUARDÓ BIEN, ENTONCES GENERAMOS EL QR
-                    
-                    contenedor.innerHTML = ""; // Limpiar anterior
-                    
+                    // --- GENERACIÓN DEL QR PERSONALIZADO ---
                     var datosUsuario = {
                         id: carnet,
                         nombre: nombre,
                         validado: "si"
                     };
                     
+                    // AQUÍ ESTÁ LA MAGIA DEL COLOR DEL QR
                     new QRCode(contenedor, {
                         text: JSON.stringify(datosUsuario),
                         width: 180,
                         height: 180,
-                        colorDark : "#000000",
-                        colorLight : "#ffffff",
+                        // colorDark: El color de los puntitos y cuadros (ROJO)
+                        colorDark : "#ff3838", 
+                        // colorLight: El color del fondo del QR (NEGRO OSCURO)
+                        colorLight : "#0d0d0d",
                         correctLevel : QRCode.CorrectLevel.H
                     });
 
                     mensaje.style.display = "block";
-                    mensaje.innerText = "¡Guardado en la base de datos y QR generado!";
                     
-                    // Restaurar botón
-                    boton.innerText = "Generar Código QR";
+                    boton.innerText = "Generar Nuevo Pase";
                     boton.disabled = false;
                 })
                 .catch(error => {
                     console.error('Error!', error.message);
-                    alert("Hubo un error al guardar los datos. Revisa tu conexión.");
+                    alert("❌ Error de conexión. Intenta de nuevo.");
                     boton.innerText = "Reintentar";
                     boton.disabled = false;
                 });
